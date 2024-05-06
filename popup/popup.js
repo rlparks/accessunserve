@@ -3,7 +3,27 @@ const readFileButton = document.querySelector("#readFileButton");
 readFileButton.addEventListener("click", async () => {
     const res = await readFile(readFileButton);
     console.log(res);
+
+    const deptChanges = res["Department Changes"];
+    console.log(filterByYYYYdashMMdashDD(deptChanges, "2024-05-30", "2024-06-31"));
 });
+
+function filterByYYYYdashMMdashDD(arr, startDate, endDate) {
+    let startDateObj = YYYYdashMMdashDDtoDate(startDate);
+    let endDateObj = YYYYdashMMdashDDtoDate(endDate);
+    startDateObj.setHours(0, 0, 0, 0);
+    endDateObj.setHours(23, 59, 59, 999);
+
+    return arr.filter((employee) => {
+        const newEffDate = employee["New Eff Date"];
+        return newEffDate >= startDateObj && newEffDate <= endDateObj;
+    });
+}
+
+function YYYYdashMMdashDDtoDate(dateText) {
+    const [year, month, day] = dateText.split("-");
+    return new Date(year, month - 1, day);
+}
 
 function readFile(button) {
     return new Promise((resolve, reject) => {
