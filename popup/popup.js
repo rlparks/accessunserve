@@ -14,6 +14,18 @@ readFileButton.addEventListener("click", async () => {
 
     console.log(employeeMyIds);
 
+    for (const sheetName in employeeMyIds) {
+        const myIds = employeeMyIds[sheetName];
+        const sheetTitle = document.createElement("h3");
+        sheetTitle.innerHTML = sheetName;
+        const myIdArea = document.createElement("textarea");
+        myIdArea.innerHTML = myIds.join("\n");
+        myIdArea.style.height = "150px";
+
+        document.body.appendChild(sheetTitle);
+        document.body.appendChild(myIdArea);
+    }
+
     readFileButton.disabled = false;
     readFileButton.innerHTML = "Read File";
 });
