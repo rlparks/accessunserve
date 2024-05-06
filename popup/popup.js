@@ -5,14 +5,18 @@ const endDateInput = document.getElementById("endDate");
 let myIds = {};
 
 // TODO
-window.browser.storage.local.set({ runBackground: true });
+window.browser.storage.local.set({ runBackground: true, currentAction: "SEARCH" });
 
 readFileButton.addEventListener("click", async () => {
     myIds = await readFileAndGetMyIds();
 
     const params = new URLSearchParams(window.location.search);
     const tabId = Number(params.get("tabId"));
-    await window.browser.storage.local.set({ myIdsToCheck: myIds });
+    await window.browser.storage.local.set({
+        myIdsToCheck: myIds,
+        currentAction: "SEARCH",
+        currentSheet: Object.keys(myIds)[0],
+    });
     window.browser.scripting.executeScript({
         target: { tabId: tabId },
         files: ["../checkChematix.js"],
@@ -26,6 +30,7 @@ async function clearPreviousData() {
         currentMyId: "",
         currentAction: "SEARCH",
         myIdsInLabs: {},
+        currentSheet: "",
     });
 }
 
