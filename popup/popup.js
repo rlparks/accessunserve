@@ -2,7 +2,20 @@ const readFileButton = document.querySelector("#readFileButton");
 const startDateInput = document.getElementById("startDate");
 const endDateInput = document.getElementById("endDate");
 
+let myIds = {};
+
 readFileButton.addEventListener("click", async () => {
+    // myIds = await readFileAndGetMyIds();
+
+    const params = new URLSearchParams(window.location.search);
+    const tabId = Number(params.get("tabId"));
+    window.browser.scripting.executeScript({
+        target: { tabId: tabId },
+        files: ["../checkChematix.js"],
+    });
+});
+
+async function readFileAndGetMyIds() {
     const startFilterDate = startDateInput.value;
     const endFilterDate = endDateInput.value;
     if (!startFilterDate || !endFilterDate) {
@@ -11,14 +24,11 @@ readFileButton.addEventListener("click", async () => {
     }
 
     const res = await readFile(readFileButton);
-    // console.log(res);
 
     readFileButton.innerHTML = "Filtering employees...";
     const employeesToCheck = findInterestingEmployees(res, startFilterDate, endFilterDate);
     readFileButton.innerHTML = "Extracting MYIDs...";
     const employeeMyIds = extractMyIds(employeesToCheck);
-
-    console.log(employeeMyIds);
 
     document.querySelectorAll(".added").forEach((element) => element.remove());
 
@@ -38,7 +48,9 @@ readFileButton.addEventListener("click", async () => {
 
     readFileButton.disabled = false;
     readFileButton.innerHTML = "Read File";
-});
+
+    return employeeMyIds;
+}
 
 function extractMyIds(megaEmployeesObj) {
     let obj = {};

@@ -8,7 +8,7 @@
         "48": "icons/remove-48-red.png"
     },
 
-    "permissions": ["activeTab"],
+    "permissions": ["activeTab", "scripting", "tabs"],
 
     "action": {
         "default_icon": "icons/remove-36-red.png"
