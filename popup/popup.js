@@ -14,12 +14,16 @@ readFileButton.addEventListener("click", async () => {
 
     console.log(employeeMyIds);
 
+    document.querySelectorAll(".added").forEach((element) => element.remove());
+
     for (const sheetName in employeeMyIds) {
         const myIds = employeeMyIds[sheetName];
         const sheetTitle = document.createElement("h3");
         sheetTitle.innerHTML = sheetName;
+        sheetTitle.className = "added";
         const myIdArea = document.createElement("textarea");
         myIdArea.innerHTML = myIds.join("\n");
+        myIdArea.className = "added";
         myIdArea.style.height = "150px";
 
         document.body.appendChild(sheetTitle);
