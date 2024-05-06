@@ -4,16 +4,30 @@ const endDateInput = document.getElementById("endDate");
 
 let myIds = {};
 
+// TODO
+window.browser.storage.local.set({ runBackground: true });
+
 readFileButton.addEventListener("click", async () => {
-    // myIds = await readFileAndGetMyIds();
+    myIds = await readFileAndGetMyIds();
 
     const params = new URLSearchParams(window.location.search);
     const tabId = Number(params.get("tabId"));
+    await window.browser.storage.local.set({ myIdsToCheck: myIds });
     window.browser.scripting.executeScript({
         target: { tabId: tabId },
         files: ["../checkChematix.js"],
     });
 });
+
+async function clearPreviousData() {
+    await browser.storage.local.set({
+        runBackground: false,
+        myIdsToCheck: {},
+        currentMyId: "",
+        currentAction: "SEARCH",
+        myIdsInLabs: {},
+    });
+}
 
 async function readFileAndGetMyIds() {
     const startFilterDate = startDateInput.value;

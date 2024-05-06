@@ -8,7 +8,7 @@
         "48": "icons/remove-48-red.png"
     },
 
-    "permissions": ["activeTab", "scripting", "tabs"],
+    "permissions": ["activeTab", "scripting", "tabs", "storage"],
 
     "action": {
         "default_icon": "icons/remove-36-red.png"
@@ -16,5 +16,12 @@
 
     "background": {
         "scripts": ["background.js"]
-    }
+    },
+
+    "content_scripts": [
+        {
+            "matches": ["https://chematix.uga.edu/*", "https://chemtesting.uga.edu/*"],
+            "js": ["checkChematix.js"]
+        }
+    ]
 }
