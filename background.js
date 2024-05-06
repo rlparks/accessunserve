@@ -2,9 +2,9 @@ browser.action.onClicked.addListener(() => {
     // window.alert("e");
     // console.log("clciked");
     browser.windows.create({
-        type: "normal",
+        type: "detached_panel",
         url: "popup/popup.html",
-        width: 200,
+        width: 300,
         height: 400,
     });
 });

@@ -2,11 +2,53 @@ const readFileButton = document.querySelector("#readFileButton");
 
 readFileButton.addEventListener("click", async () => {
     const res = await readFile(readFileButton);
-    console.log(res);
+    // console.log(res);
 
-    const deptChanges = res["Department Changes"];
-    console.log(filterByYYYYdashMMdashDD(deptChanges, "2024-05-30", "2024-06-31"));
+    const startFilterDate = "2024-05-30";
+    const endFilterDate = "2024-06-31";
+
+    readFileButton.innerHTML = "Filtering employees...";
+    const employeesToCheck = findInterestingEmployees(res, startFilterDate, endFilterDate);
+    readFileButton.innerHTML = "Extracting MYIDs...";
+    const employeeMyIds = extractMyIds(employeesToCheck);
+
+    console.log(employeeMyIds);
+
+    readFileButton.disabled = false;
+    readFileButton.innerHTML = "Read File";
 });
+
+function extractMyIds(megaEmployeesObj) {
+    let obj = {};
+
+    for (const sheetName in megaEmployeesObj) {
+        const employees = megaEmployeesObj[sheetName];
+        const employeeMyIds = employees.map((employee) => employee["UGA MYID"]);
+        obj[sheetName] = employeeMyIds;
+    }
+
+    return obj;
+}
+
+function findInterestingEmployees(res, startFilterDate, endFilterDate) {
+    let obj = {};
+
+    for (const sheetName in res) {
+        const employees = res[sheetName];
+        const employeesFilteredByTime = filterByYYYYdashMMdashDD(
+            employees,
+            startFilterDate,
+            endFilterDate
+        );
+        obj[sheetName] = employeesFilteredByTime;
+    }
+
+    return obj;
+}
+
+function isInterestingActionCode(actionCode) {
+    return actionCode === "RET" || actionCode === "TER";
+}
 
 function filterByYYYYdashMMdashDD(arr, startDate, endDate) {
     let startDateObj = YYYYdashMMdashDDtoDate(startDate);
@@ -52,8 +94,6 @@ function readFile(button) {
                 }
             }
 
-            button.disabled = false;
-            button.innerHTML = "Read File";
             resolve(dataJSON);
         });
 
