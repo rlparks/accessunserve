@@ -1,11 +1,17 @@
 const readFileButton = document.querySelector("#readFileButton");
+const startDateInput = document.getElementById("startDate");
+const endDateInput = document.getElementById("endDate");
 
 readFileButton.addEventListener("click", async () => {
+    const startFilterDate = startDateInput.value;
+    const endFilterDate = endDateInput.value;
+    if (!startFilterDate || !endFilterDate) {
+        alert("Please provide start and end dates");
+        return;
+    }
+
     const res = await readFile(readFileButton);
     // console.log(res);
-
-    const startFilterDate = "2024-05-30";
-    const endFilterDate = "2024-06-31";
 
     readFileButton.innerHTML = "Filtering employees...";
     const employeesToCheck = findInterestingEmployees(res, startFilterDate, endFilterDate);
