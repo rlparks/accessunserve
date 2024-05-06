@@ -1,86 +1,42 @@
-console.log("Hello!");
+const readFileButton = document.querySelector("#readFileButton");
 
-document.querySelector("#readFileButton").addEventListener("click", async () => {
-    const rows = await readFile();
-    console.log(rows);
+readFileButton.addEventListener("click", async () => {
+    const res = await readFile(readFileButton);
+    console.log(res);
 });
 
-function readFile() {
+function readFile(button) {
     return new Promise((resolve, reject) => {
         const tempInput = document.createElement("input");
         tempInput.type = "file";
         tempInput.accept = ".xlsx";
 
-        tempInput.addEventListener("change", (event) => {
+        tempInput.addEventListener("change", async (event) => {
             const file = event.target.files[0];
             if (!file) {
                 reject("No file provided");
             }
 
-            window.readXlsxFile(file).then((rows) => {
-                resolve(rows);
-            });
+            button.disabled = true;
+            button.innerHTML = "Reading file...";
+
+            const data = await file.arrayBuffer();
+            const workbook = window.XLSX.read(data, { cellDates: true });
+
+            let dataJSON = {};
+            for (const sheetName of workbook.SheetNames) {
+                if (!sheetName.includes("map")) {
+                    button.innerHTML = `Reading: ${sheetName}`;
+                    const sheet = workbook.Sheets[sheetName];
+                    dataJSON[sheetName] = window.XLSX.utils.sheet_to_json(sheet, { range: 8 });
+                }
+            }
+
+            button.disabled = false;
+            button.innerHTML = "Read File";
+            resolve(dataJSON);
         });
 
         tempInput.click();
     });
 }
-
-const hrStatusChangesSchema = {
-    Emplid: {
-        prop: "id",
-        type: String,
-    },
-    "Badge No": {
-        prop: "badge",
-        type: String,
-    },
-    "UGA MYID": {
-        prop: "myid",
-        type: String,
-    },
-    "Last Name": {
-        prop: "lastName",
-        type: String,
-    },
-    "First Name": {
-        prop: "firstName",
-        type: String,
-    },
-    "Middle Name": {
-        prop: "middleName",
-        type: String,
-    },
-    "Name Suffix": {
-        prop: "suffix",
-        type: String,
-    },
-    "Employee Record": {
-        prop: "record",
-        type: String,
-    },
-    "New Eff Date": {
-        prop: "newEffDate",
-        type: Date,
-    },
-    "New Job Action Date": {
-        prop: "newJobActionDate",
-        type: Date,
-    },
-    "New Job Action Code": {
-        prop: "newJobActionCode",
-        type: String,
-    },
-    "Job Indicator": {
-        prop: "jobIndicator",
-        type: String,
-    },
-    "Position No Descr": {
-        prop: "positionNoDescr",
-        type: String,
-    },
-    "Dept ID Descr": {
-        prop: "deptIdDescr",
-        type: String,
-    },
-};
