@@ -11,4 +11,15 @@ browser.action.onClicked.addListener(async () => {
     }, console.error);
 });
 
+browser.runtime.onMessage.addListener((request) => {
+    if (request === "showResults") {
+        browser.windows.create({
+            type: "detached_panel",
+            url: `results/results.html`,
+            width: 300,
+            height: 400,
+        });
+    }
+});
+
 // console.log("background.js loaded");

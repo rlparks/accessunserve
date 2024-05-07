@@ -47,8 +47,9 @@ browser.storage.local
 
                             if (currentSheetIndex >= Object.keys(myIdsToCheck).length) {
                                 console.log("myids in labs: ", myIdsInLabs);
-                                alert("All sheets have been checked");
+                                // alert("All sheets have been checked");
                                 await browser.storage.local.set({ runBackground: false });
+                                browser.runtime.sendMessage("showResults");
                                 return;
                             }
 
