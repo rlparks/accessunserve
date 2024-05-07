@@ -1,3 +1,5 @@
+// console.log("checkChematix.js loaded");
+
 chrome.storage.local
     .get([
         "myIdsToCheck",
