@@ -23,5 +23,11 @@
             "matches": ["https://chematix.uga.edu/*", "https://chemtesting.uga.edu/*"],
             "js": ["checkChematix.js"]
         }
-    ]
+    ],
+
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "{7956b5c4-308d-42f1-8375-cb9e266c55d6}"
+        }
+    }
 }

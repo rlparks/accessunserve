@@ -24,7 +24,7 @@ readFileButton.addEventListener("click", async () => {
     });
 
     const suggestion = document.getElementById("closeSuggestion");
-    suggestion.innerHTML = "This window can now be closed";
+    suggestion.textContent = "This window can now be closed";
 });
 
 async function clearPreviousData() {
@@ -48,25 +48,25 @@ async function readFileAndGetMyIds() {
 
     const res = await readFile(readFileButton);
 
-    readFileButton.innerHTML = "Filtering employees...";
+    readFileButton.textContent = "Filtering employees...";
     const employeesToCheck = findInterestingEmployees(res, startFilterDate, endFilterDate);
-    readFileButton.innerHTML = "Extracting MYIDs...";
+    readFileButton.textContent = "Extracting MYIDs...";
     const employeeMyIds = extractMyIds(employeesToCheck);
 
     document.querySelectorAll(".added").forEach((element) => element.remove());
 
     const title = document.createElement("h2");
-    title.innerHTML = "Employees in range:";
+    title.textContent = "Employees in range:";
     title.className = "added";
     document.body.appendChild(title);
     for (const sheetName in employeeMyIds) {
         const myIds = employeeMyIds[sheetName];
 
         const sheetTitle = document.createElement("h3");
-        sheetTitle.innerHTML = sheetName + ": " + myIds.length;
+        sheetTitle.textContent = sheetName + ": " + myIds.length;
         sheetTitle.className = "added";
         const myIdArea = document.createElement("textarea");
-        myIdArea.innerHTML = myIds.join("\n");
+        myIdArea.textContent = myIds.join("\n");
         myIdArea.className = "added";
 
         document.body.appendChild(sheetTitle);
@@ -74,7 +74,7 @@ async function readFileAndGetMyIds() {
     }
 
     readFileButton.disabled = false;
-    readFileButton.innerHTML = "Read File";
+    readFileButton.textContent = "Read File";
 
     return employeeMyIds;
 }
@@ -141,7 +141,7 @@ function readFile(button) {
             }
 
             button.disabled = true;
-            button.innerHTML = "Reading file...";
+            button.textContent = "Reading file...";
 
             const data = await file.arrayBuffer();
             const workbook = window.XLSX.read(data, { cellDates: true });
@@ -149,7 +149,7 @@ function readFile(button) {
             let dataJSON = {};
             for (const sheetName of workbook.SheetNames) {
                 if (!sheetName.includes("map")) {
-                    button.innerHTML = `Reading: ${sheetName}`;
+                    button.textContent = `Reading: ${sheetName}`;
                     const sheet = workbook.Sheets[sheetName];
                     dataJSON[sheetName] = window.XLSX.utils.sheet_to_json(sheet, { range: 8 });
                 }
