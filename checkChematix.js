@@ -31,21 +31,25 @@ browser.storage.local
                                 return;
                             }
 
-                            const currentSheetIndex =
-                                Object.keys(myIdsToCheck).indexOf(currentSheet);
+                            let currentSheetIndex = Object.keys(myIdsToCheck).indexOf(currentSheet);
+                            const currentSheetIndexOriginal = currentSheetIndex;
+                            while (
+                                currentSheetIndex < Object.keys(myIdsToCheck).length &&
+                                myIdsToCheck[currentSheet]?.length === 0
+                            ) {
+                                currentSheet = Object.keys(myIdsToCheck)[currentSheetIndex + 1];
+                                currentSheetIndex++;
+                            }
 
-                            if (myIdsToCheck[currentSheet]?.length === 0) {
-                                if (currentSheetIndex < Object.keys(myIdsToCheck).length - 1) {
-                                    currentSheet = Object.keys(myIdsToCheck)[currentSheetIndex + 1];
-                                    await browser.storage.local.set({
-                                        currentSheet,
-                                    });
-                                } else {
-                                    console.log("my ids in labs: ", myIdsInLabs);
-                                    alert("All sheets have been checked");
-                                    // await browser.storage.local.set({ runBackground: false });
-                                    return;
-                                }
+                            if (currentSheetIndexOriginal !== currentSheetIndex) {
+                                await browser.storage.local.set({ currentSheet });
+                            }
+
+                            if (currentSheetIndex >= Object.keys(myIdsToCheck).length) {
+                                console.log("myids in labs: ", myIdsInLabs);
+                                alert("All sheets have been checked");
+                                await browser.storage.local.set({ runBackground: false });
+                                return;
                             }
 
                             if (myIdsToCheck[currentSheet]?.length > 0) {
@@ -55,14 +59,14 @@ browser.storage.local
                                     currentMyId: current,
                                 });
 
-                                console.log("searching for: ", current);
+                                // console.log("searching for: ", current);
                                 userIdInput.value = current;
                                 await browser.storage.local.set({ currentAction: "CLICK_PROFILE" });
                                 document.querySelector("input[name='cmdSearch']").click();
                             }
                             break;
                         case "CLICK_PROFILE":
-                            console.log("checking for: ", currentMyId);
+                            // console.log("checking for: ", currentMyId);
                             const viewUserProfileButton = document.querySelector(
                                 'input[name="cmdViewProfile"]'
                             );

@@ -53,10 +53,15 @@ async function readFileAndGetMyIds() {
 
     document.querySelectorAll(".added").forEach((element) => element.remove());
 
+    const title = document.createElement("h2");
+    title.innerHTML = "Employees in range:";
+    title.className = "added";
+    document.body.appendChild(title);
     for (const sheetName in employeeMyIds) {
         const myIds = employeeMyIds[sheetName];
+
         const sheetTitle = document.createElement("h3");
-        sheetTitle.innerHTML = sheetName;
+        sheetTitle.innerHTML = sheetName + ": " + myIds.length;
         sheetTitle.className = "added";
         const myIdArea = document.createElement("textarea");
         myIdArea.innerHTML = myIds.join("\n");
