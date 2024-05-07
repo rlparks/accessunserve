@@ -18,7 +18,7 @@ browser.storage.local
         }) => {
             if (runBackground) {
                 async function check() {
-                    console.log("my ids to check: ", myIdsToCheck);
+                    // console.log("my ids to check: ", myIdsToCheck);
                     console.log(currentAction);
                     switch (currentAction) {
                         case "SEARCH":
@@ -41,6 +41,7 @@ browser.storage.local
                                         currentSheet,
                                     });
                                 } else {
+                                    console.log("my ids in labs: ", myIdsInLabs);
                                     alert("All sheets have been checked");
                                     // await browser.storage.local.set({ runBackground: false });
                                     return;
@@ -56,13 +57,47 @@ browser.storage.local
 
                                 console.log("searching for: ", current);
                                 userIdInput.value = current;
-                                await browser.storage.local.set({ currentAction: "CHECK" });
+                                await browser.storage.local.set({ currentAction: "CLICK_PROFILE" });
                                 document.querySelector("input[name='cmdSearch']").click();
                             }
                             break;
-                        case "CHECK":
+                        case "CLICK_PROFILE":
                             console.log("checking for: ", currentMyId);
+                            const viewUserProfileButton = document.querySelector(
+                                'input[name="cmdViewProfile"]'
+                            );
+
+                            if (!viewUserProfileButton) {
+                                alert("User not found");
+                                await browser.storage.local.set({ currentAction: "SEARCH" });
+                                return;
+                            }
+
+                            await browser.storage.local.set({ currentAction: "CHECK_LABS" });
+                            viewUserProfileButton.click();
                             break;
+                        case "CHECK_LABS":
+                            const successImg = document.querySelector(
+                                "img[src='/Chematix/images/error_correct.jpg']"
+                            );
+
+                            if (successImg) {
+                                // alert("User found");
+                                // this won't exist unless the account is in a lab(s)
+                                myIdsInLabs[currentSheet].push(currentMyId);
+                                await browser.storage.local.set({
+                                    myIdsInLabs,
+                                });
+                            }
+
+                            const finishedButton = document.querySelector(
+                                'input[name="cmdFinished"]'
+                            );
+                            await browser.storage.local.set({
+                                currentAction: "SEARCH",
+                                currentMyId: "",
+                            });
+                            finishedButton.click();
                     }
                 }
 

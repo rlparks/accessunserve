@@ -4,8 +4,8 @@ const endDateInput = document.getElementById("endDate");
 
 let myIds = {};
 
-// TODO
-window.browser.storage.local.set({ runBackground: true, currentAction: "SEARCH" });
+// window.browser.storage.local.set({ runBackground: true, currentAction: "SEARCH" });
+clearPreviousData();
 
 readFileButton.addEventListener("click", async () => {
     myIds = await readFileAndGetMyIds();
@@ -16,6 +16,7 @@ readFileButton.addEventListener("click", async () => {
         myIdsToCheck: myIds,
         currentAction: "SEARCH",
         currentSheet: Object.keys(myIds)[0],
+        runBackground: true,
     });
     window.browser.scripting.executeScript({
         target: { tabId: tabId },
@@ -29,7 +30,8 @@ async function clearPreviousData() {
         myIdsToCheck: {},
         currentMyId: "",
         currentAction: "SEARCH",
-        myIdsInLabs: {},
+        myIdsInLabs: { "HR Status Changes": [], "Department Changes": [], "Position Changes": [] },
+
         currentSheet: "",
     });
 }
