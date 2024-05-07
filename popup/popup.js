@@ -69,7 +69,6 @@ async function readFileAndGetMyIds() {
         const myIdArea = document.createElement("textarea");
         myIdArea.innerHTML = myIds.join("\n");
         myIdArea.className = "added";
-        myIdArea.style.height = "150px";
 
         document.body.appendChild(sheetTitle);
         document.body.appendChild(myIdArea);
