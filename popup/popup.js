@@ -22,6 +22,9 @@ readFileButton.addEventListener("click", async () => {
         target: { tabId: tabId },
         files: ["../checkChematix.js"],
     });
+
+    const suggestion = document.getElementById("closeSuggestion");
+    suggestion.innerHTML = "This window can now be closed";
 });
 
 async function clearPreviousData() {
