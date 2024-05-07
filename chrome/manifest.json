@@ -1,0 +1,27 @@
+{
+    "description": "Assists in removing accounts from labs in UGA's Chematix.",
+    "manifest_version": 3,
+    "name": "Access Unserve",
+    "version": "0.1",
+    "homepage_url": "https://example.com",
+    "icons": {
+        "48": "icons/remove-48-red.png"
+    },
+
+    "permissions": ["activeTab", "scripting", "tabs", "storage"],
+
+    "action": {
+        "default_icon": "icons/remove-36-red.png"
+    },
+
+    "background": {
+        "service_worker": "service_worker.js"
+    },
+
+    "content_scripts": [
+        {
+            "matches": ["https://chematix.uga.edu/*", "https://chemtesting.uga.edu/*"],
+            "js": ["checkChematix.js"]
+        }
+    ]
+}

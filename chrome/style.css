@@ -1,0 +1,53 @@
+:root {
+    --font-body: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    --font-size: 16px;
+
+    --color-background: rgb(255, 255, 255);
+    --color-text: rgb(0, 0, 0);
+    --color-accent: #ba0c2f;
+
+    font-family: var(--font-body);
+    font-size: var(--font-size);
+
+    background-color: var(--color-background);
+    color: var(--color-text);
+}
+
+body {
+    font-family: sans-serif;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+h1,
+p {
+    text-align: center;
+}
+
+input,
+textarea {
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    min-width: 250px;
+    min-height: 25px;
+}
+
+textarea {
+    height: 150px;
+    resize: none;
+}
+
+button {
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: var(--font-size);
+    width: 100%;
+}
