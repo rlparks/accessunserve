@@ -1,6 +1,16 @@
 async function populateResults() {
     const { myIdsInLabs } = await browser.storage.local.get("myIdsInLabs");
-    console.log(myIdsInLabs);
+
+    await browser.storage.local.set({
+        runBackground: false,
+        myIdsToCheck: {},
+        currentMyId: "",
+        currentAction: "SEARCH",
+        myIdsInLabs: { "HR Status Changes": [], "Department Changes": [], "Position Changes": [] },
+        currentSheet: "",
+    });
+
+    // console.log(myIdsInLabs);
 
     document.getElementById(
         "hrTitle"

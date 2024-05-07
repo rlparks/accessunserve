@@ -34,7 +34,6 @@ async function clearPreviousData() {
         currentMyId: "",
         currentAction: "SEARCH",
         myIdsInLabs: { "HR Status Changes": [], "Department Changes": [], "Position Changes": [] },
-
         currentSheet: "",
     });
 }
