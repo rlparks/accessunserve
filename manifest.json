@@ -3,7 +3,7 @@
     "manifest_version": 3,
     "name": "Access Unserve",
     "version": "1.0",
-    "homepage_url": "https://example.com",
+    "homepage_url": "https://github.com/rlparks/accessunserve",
     "icons": {
         "48": "icons/remove-48-red.png"
     },
