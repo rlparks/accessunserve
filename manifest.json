@@ -27,7 +27,8 @@
 
     "browser_specific_settings": {
         "gecko": {
-            "id": "{7956b5c4-308d-42f1-8375-cb9e266c55d6}"
+            "id": "{7956b5c4-308d-42f1-8375-cb9e266c55d6}",
+            "update_url": "https://rlparks.net/accessunserve/updates.json"
         }
     }
 }
