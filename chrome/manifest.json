@@ -2,8 +2,8 @@
     "description": "Assists in removing accounts from labs in UGA's Chematix.",
     "manifest_version": 3,
     "name": "Access Unserve",
-    "version": "0.1",
-    "homepage_url": "https://example.com",
+    "version": "1.0.1",
+    "homepage_url": "https://github.com/rlparks/accessunserve",
     "icons": {
         "48": "icons/remove-48-red.png"
     },
