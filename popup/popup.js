@@ -102,6 +102,12 @@ function findInterestingEmployees(res, startFilterDate, endFilterDate) {
             endFilterDate
         );
         obj[sheetName] = employeesFilteredByTime;
+
+        if (sheetName === "HR Status Changes") {
+            obj[sheetName] = obj[sheetName].filter((employee) =>
+                isInterestingActionCode(employee["New Job Action Code"])
+            );
+        }
     }
 
     return obj;
